@@ -18,6 +18,26 @@ class Course {
       id: this.id,
     };
   }
+  static async update(course){
+    const courses=await Course.getAll();
+
+    const index=courses.findIndex(c=>c.id===course.id);
+    courses[index]=course;
+
+    return new Promise((res, rej) => {
+      fs.writeFile(
+        path.join(__dirname, "..", "data", "courses.json"),
+        JSON.stringify(courses),
+        (err) => {
+          if (err) {
+            rej(err);
+          } else {
+            res();
+          }
+        }
+      );
+    });
+  }
 
   async save() {
     const courses = await Course.getAll();
@@ -52,6 +72,12 @@ class Course {
         }
       );
     });
+  }
+
+  static  async getById(id){
+    const courses=await Course.getAll();
+    return courses.find(c=>c.id===id);
+
   }
 }
 
