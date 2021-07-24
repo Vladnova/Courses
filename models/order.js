@@ -1,33 +1,30 @@
-const {Schema, model}=require('mongoose');
+const { Schema, model } = require("mongoose");
 
-
-const orderSchema=new Schema({
-    courses:[
-        {
-            course:{
-                type: Object,
-                required:true,
-            },
-            count:{
-                type:Number,
-                required:true,
-            }
-        }
-    ],
-    user:{
-        name:String,
-        userId:{
-            type:Schema.Types.ObjectId,
-            ref: "User",
-            required:true,
-        }
+const orderSchema = new Schema({
+  courses: [
+    {
+      course: {
+        type: Object,
+        required: true,
+      },
+      count: {
+        type: Number,
+        required: true,
+      },
     },
-    data:{
-        type:Date,
-        default:Date.now
-    }
-
+  ],
+  user: {
+    name: String,
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-
-module.exports=model('Order',orderSchema )
+module.exports = model("Order", orderSchema);
