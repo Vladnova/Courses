@@ -3,9 +3,10 @@ const path = require("path");
 const mongoose = require("mongoose");
 const exphbs = require("express-handlebars");
 const homeRoutes = require("./routes/home");
-const cardRoutes = require("./routes/card");
+const cartRoutes = require("./routes/cart");
 const coursesRoutes = require("./routes/courses");
 const addRoutes = require("./routes/add");
+const ordersRoutes=require('./routes/orders');
 const User = require("./models/user");
 
 const app = express();
@@ -21,7 +22,7 @@ app.set("views", "views");
 
 app.use(async (req, res, next) => {
   try {
-    const user = await User.findById("60faca9fecccc2110061d539");
+    const user = await User.findById("60fbad098abd7711c86a6a5f");
     req.user=user;
     next();
   } catch (error) {
@@ -34,7 +35,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", homeRoutes);
 app.use("/courses", coursesRoutes);
 app.use("/add", addRoutes);
-app.use("/card", cardRoutes);
+app.use("/cart", cartRoutes);
+app.use("/orders", ordersRoutes);
 
 const PORT = process.env.PORT || 3000;
 
@@ -53,7 +55,7 @@ async function start() {
       const user = new User({
         email: "novalenkov@ukr.net",
         name: "Vlados",
-        card: { items: [] },
+        cart: { items: [] },
       });
       await user.save();
     }
