@@ -14,13 +14,15 @@
             <p class="price">{{price}}</p>
           </div>
           <div class="card-action actions">
-            
+
             <a href="/courses/{{_id}}" target="_blank">Открыть курс</a>
-                <a href="/courses/{{_id}}/edit?allow=true" >Редактировать</a>
-                <form action="/cart/add" method="POST">
-                <input type="hidden" name='id' value="{{_id}}">
+            {{#if @root.isAuth}}
+              <a href="/courses/{{_id}}/edit?allow=true">Редактировать</a>
+              <form action="/cart/add" method="POST">
+                <input type="hidden" name="id" value="{{_id}}" />
                 <button type="submit" class="btn btn-primary">Купить</button>
-                </form>
+              </form>
+            {{/if}}
           </div>
         </div>
       </div>
