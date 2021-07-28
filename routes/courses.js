@@ -1,14 +1,24 @@
 const { Router } = require("express");
 const Course = require("../models/course");
 const router = Router();
-const auth=require('../middleware/auth');
+const auth = require("../middleware/auth");
+const course = require("../models/course");
+
+function isOwner(course, req) {
+  return course.userId.toString() === req.user._id.toString();
+}
 
 router.get("/", async (req, res) => {
   try {
-    const courses = await Course.find().lean().populate('userId', 'email name').select('price title img');
-       res.render("courses", {
+    const courses = await Course.find()
+      .lean()
+      .populate("userId", "email name")
+      .select("price title img");
+
+    res.render("courses", {
       title: "Курсы",
       isCourses: true,
+      userId: req.user ? req.user._id.toString() : null,
       courses,
     });
   } catch (error) {
@@ -16,12 +26,17 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id/edit",auth, async (req, res) => {
+router.get("/:id/edit", auth, async (req, res) => {
   if (!req.query.allow) {
     return res.redirect("/");
   }
   try {
     const course = await Course.findById(req.params.id).lean();
+
+    if (!isOwner(course, req)) {
+      return res.redirect("/courses");
+    }
+
     res.render("course-edit", {
       title: `Редактировать ${course.title}`,
       course,
@@ -29,24 +44,33 @@ router.get("/:id/edit",auth, async (req, res) => {
   } catch (error) {
     console.log(error);
   }
- 
 });
 
-router.post("/edit",auth, async (req, res) => {
-  const { id } = req.body;
-  delete req.body.id;
+router.post("/edit", auth, async (req, res) => {
   try {
-    await Course.findByIdAndUpdate(id, req.body);
+    const { id } = req.body;
+    delete req.body.id;
+    const course = await Course.findById(id);
+
+    if (!isOwner(course, req)) {
+      return res.redirect("/courses");
+    }
+
+    Object.assign(course, req.body);
+    await course.save();
     res.redirect("/courses");
   } catch (error) {
     console.log(error);
-  } 
+  }
 });
 
-router.post("/remove",auth, async (req, res) => {
+router.post("/remove", auth, async (req, res) => {
   try {
-    await Course.deleteOne({ _id: req.body.id });
-    res.redirect('/courses')
+    await Course.deleteOne({
+      _id: req.body.id,
+      userId: req.user._id,
+    });
+    res.redirect("/courses");
   } catch (error) {
     console.log(error);
   }

@@ -14,20 +14,20 @@ const ordersRoutes = require("./routes/orders");
 const authRoutes = require("./routes/auth");
 const varMiddleware = require("./middleware/variables");
 const userMiddleware=require('./middleware/user');
+const keys=require('./keys');
 
-const MONGODB_URL =
-  "mongodb+srv://Vlados:147852369@cluster0.rskwa.mongodb.net/shop?w=majority";
 
 const app = express();
 
 const hbs = exphbs.create({
   defaultLayout: "main",
   extname: "hbs",
+  helpers:require('./utils/hbs-helpers'),
 });
 
 const store = new MongoStore({
   collection: "session",
-  uri: MONGODB_URL,
+  uri: keys.MONGODB_URL,
 });
 
 app.engine("hbs", hbs.engine);
@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: "some secret value",
+    secret: keys.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store,
@@ -60,7 +60,7 @@ const PORT = process.env.PORT || 3000;
 
 async function start() {
   try {
-    await mongoose.connect(MONGODB_URL, {
+    await mongoose.connect(keys.MONGODB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
