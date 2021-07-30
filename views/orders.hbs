@@ -1,4 +1,4 @@
-<h1>Мои заказы</h1>
+<h1 class="sub-title">Мои заказы</h1>
 
 {{#if orders.length}}
   {{#each orders}}
@@ -15,7 +15,8 @@
             <ol>
               {{#each courses}}
                 <li>
-                    {{course.title}} (x<strong>{{count}}</strong>)
+                  {{course.title}}
+                  (x<strong>{{count}}</strong>)
                 </li>
               {{/each}}
 
@@ -29,5 +30,11 @@
     </div>
   {{/each}}
 {{else}}
-  <p>Заказов нет</p>
+  <p class="mini-title">Заказов нет</p>
+
+  <img
+    class="img-logo"
+    src="https://st4.depositphotos.com/12901430/29985/v/600/depositphotos_299853162-stock-illustration-confused-stickman-character-making-shrug.jpg"
+    alt="logo"
+  />
 {{/if}}

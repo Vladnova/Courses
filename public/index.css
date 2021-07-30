@@ -49,7 +49,37 @@
   color: red;
 }
 
-.avatar{
+.avatar {
   max-width: 300px;
   height: auto;
+}
+
+.home-logo {
+  width: 100%;
+  height: 90vh;
+  background-image: url("http://dreamlevels.com/wp-content/uploads/2020/02/programming-languages.jpeg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+
+
+.sub-title{
+  font-weight: 700;
+  color: #ee6e73;
+}
+
+.mini-title{
+  font-size: 26px;
+  margin-bottom: 150px;
+}
+
+.img-logo{
+  width: 550px;
+  height: auto;
+}
+
+.container{
+  text-align: center;
 }

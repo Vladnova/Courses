@@ -1,9 +1,9 @@
-<h1>Курсы</h1>
+<h1 class="sub-title">Курсы</h1>
 
 {{#if courses.length}}
   {{#each courses}}
     <div class="row">
-      <div class="col s3 offset-s4">
+      <div class="col s5 offset-s5">
         <div class="card">
           <div class="card-image">
             <img src="{{img}}" alt="{{title}}" />
@@ -34,5 +34,10 @@
     </div>
   {{/each}}
 {{else}}
-  <p>Курсов пока нет</p>
+  <p class="mini-title">Курсов пока нет</p>
+  
+  <img
+  class="img-logo" 
+  src="https://assets.wprock.fr/emoji/joypixels/512/1f937-2642.png" 
+  alt="logo">
 {{/if}}
